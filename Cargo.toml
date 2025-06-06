@@ -1,0 +1,19 @@
+[package]
+name = "eventsourcingdb-mqtt-bridge"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.98"
+clap = { version = "4.5.39", features = ["derive", "env"] }
+dotenvy = "0.15.7"
+eventsourcingdb-client-rust = { path = "../eventsourcingdb-client-rust", features = ["testcontainer"] }
+futures = "0.3.31"
+rumqttc = "0.24.0"
+serde = "1.0.219"
+serde_json = "1.0.140"
+testcontainers = { version = "0.24.0", features = ["http_wait"] }
+tokio = { version = "1.45.1", features = ["full"] }
+tracing = { version = "0.1.41" }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+url = "2.5.4"
