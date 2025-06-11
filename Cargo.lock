@@ -513,8 +513,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "eventsourcingdb-client-rust"
-version = "0.1.0"
+name = "eventsourcingdb"
+version = "0.7.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a80b18efc68c6157a4cacc2c5b636690286afed03250820212ad2bc3b102872c"
 dependencies = [
  "chrono",
  "futures",
@@ -523,7 +525,6 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
- "testcontainers",
  "thiserror 2.0.12",
  "tokio",
  "tokio-stream",
@@ -539,7 +540,7 @@ dependencies = [
  "anyhow",
  "clap",
  "dotenvy",
- "eventsourcingdb-client-rust",
+ "eventsourcingdb",
  "futures",
  "rumqttc",
  "serde",

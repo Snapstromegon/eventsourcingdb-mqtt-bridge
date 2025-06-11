@@ -1,8 +1,11 @@
 use std::time::Duration;
 
 use clap::Parser;
-use eventsourcingdb_client_rust::{
-    client::request_options::{Bound, BoundType, ObserveEventsRequestOptions},
+use eventsourcingdb::{
+    client::{
+        Client as DbClient,
+        request_options::{Bound, BoundType, ObserveEventsRequestOptions},
+    },
     event::{EventCandidate, TraceInfo},
 };
 use futures::StreamExt;
@@ -80,10 +83,7 @@ async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     info!("Parsed command line arguments");
 
-    let db_client = eventsourcingdb_client_rust::client::Client::new(
-        args.eventsourcingdb.url,
-        args.eventsourcingdb.token,
-    );
+    let db_client = DbClient::new(args.eventsourcingdb.url, args.eventsourcingdb.token);
 
     db_client.ping().await?;
     info!("Connected to EventSourcingDB");
@@ -166,7 +166,7 @@ enum ControlMessage {
 async fn sync_mqtt_to_db(
     control_tx: tokio::sync::mpsc::UnboundedSender<ControlMessage>,
     mqtt_eventloop: &mut rumqttc::EventLoop,
-    db_client: &eventsourcingdb_client_rust::client::Client,
+    db_client: &DbClient,
     mqtt_input_topic: &str,
     mqtt_control_topic: &str,
 ) -> anyhow::Result<()> {
@@ -209,7 +209,7 @@ async fn sync_mqtt_to_db(
 
 async fn sync_db_to_mqtt(
     mut control_rx: tokio::sync::mpsc::UnboundedReceiver<ControlMessage>,
-    db_client: &eventsourcingdb_client_rust::client::Client,
+    db_client: &DbClient,
     mqtt_client: &rumqttc::AsyncClient,
     db_subscription: &str,
     mqtt_output_topic: &str,
