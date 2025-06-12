@@ -2,11 +2,8 @@ use std::time::Duration;
 
 use clap::Parser;
 use eventsourcingdb::{
-    client::{
-        Client as DbClient,
-        request_options::{Bound, BoundType, ObserveEventsRequestOptions},
-    },
-    event::{EventCandidate, TraceInfo},
+    Client as DbClient, EventCandidate, TraceInfo,
+    request_options::{Bound, BoundType, ObserveEventsRequestOptions},
 };
 use futures::StreamExt;
 use rumqttc::{Incoming, Publish};
@@ -252,8 +249,8 @@ async fn sync_db_to_mqtt(
             db_subscription,
             Some(ObserveEventsRequestOptions {
                 recursive: true,
-                from_latest_event: None,
                 lower_bound: last_event,
+                ..Default::default()
             }),
         )
         .await?;
